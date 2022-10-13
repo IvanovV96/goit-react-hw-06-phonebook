@@ -1,8 +1,9 @@
 import { Field, Form, Formik } from 'formik';
 import React, { Component } from 'react';
+import { FormEl } from './PhonebookForm.styled';
 const initialValues = {
   name: '',
-  phone: '',
+  number: '',
 };
 export class PhonebookForm extends Component {
   handleSubmit = (values, { resetForm }) => {
@@ -12,7 +13,7 @@ export class PhonebookForm extends Component {
   render() {
     return (
       <Formik initialValues={initialValues} onSubmit={this.handleSubmit}>
-        <Form>
+        <FormEl>
           <label htmlFor="name">
             Name
             <Field
@@ -23,18 +24,18 @@ export class PhonebookForm extends Component {
               required
             />
           </label>
-          <label htmlFor="phone">
+          <label htmlFor="number">
             Number
             <Field
               type="tel"
-              name="phone"
+              name="number"
               pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
               title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
               required
             />
           </label>
           <button type="submit">Add contact</button>
-        </Form>
+        </FormEl>
       </Formik>
     );
   }

@@ -1,4 +1,4 @@
-import { Field, Form, Formik } from 'formik';
+import { Field, Formik } from 'formik';
 import React, { Component } from 'react';
 import { FormEl } from './PhonebookForm.styled';
 const initialValues = {
@@ -7,6 +7,17 @@ const initialValues = {
 };
 export class PhonebookForm extends Component {
   handleSubmit = (values, { resetForm }) => {
+    const { contacts } = this.props;
+
+    if (
+      contacts.some(
+        contact => contact.name.toLowerCase() === values.name.toLowerCase()
+      )
+    ) {
+      alert(`${values.name} is already in contacts`);
+      return;
+    }
+
     this.props.onSubmit(values);
     resetForm();
   };
@@ -25,7 +36,7 @@ export class PhonebookForm extends Component {
             />
           </label>
           <label htmlFor="number">
-            Number
+            Phone
             <Field
               type="tel"
               name="number"

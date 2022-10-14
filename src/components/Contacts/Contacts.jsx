@@ -1,6 +1,8 @@
 import { Component } from 'react';
+import { Contact } from './Contact';
+import { ContactsEl } from './Contacts.styled';
 
-export class Contacts extends Component {
+export class ContactsList extends Component {
   getFilteredContacts = () => {
     const { contacts, filter } = this.props;
     return contacts.filter(contact =>
@@ -15,20 +17,17 @@ export class Contacts extends Component {
   render() {
     const filteredContacts = this.getFilteredContacts();
     return (
-      <ul>
-        {filteredContacts.map(({ name, number, id }) => {
+      <ContactsEl>
+        {filteredContacts.map(contact => {
           return (
-            <li key={id}>
-              <p>
-                {name}: {number}
-              </p>
-              <button type="button" onClick={this.onClick} id={id}>
-                Delete
-              </button>
-            </li>
+            <Contact
+              contact={contact}
+              onClick={this.onClick}
+              key={contact.id}
+            />
           );
         })}
-      </ul>
+      </ContactsEl>
     );
   }
 }

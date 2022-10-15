@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { ContactEl } from './Contacts.styled';
 
 export const Contact = ({ contact, onClick }) => {
@@ -13,4 +14,13 @@ export const Contact = ({ contact, onClick }) => {
       </button>
     </ContactEl>
   );
+};
+
+Contact.propTypes = {
+  contact: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string,
+    number: PropTypes.string,
+  }),
+  onClick: PropTypes.func,
 };

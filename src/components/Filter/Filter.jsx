@@ -1,5 +1,5 @@
+import PropTypes from 'prop-types';
 import { FilterField } from './Filter.styled';
-
 export const Filter = ({ value, onChange }) => {
   return (
     <FilterField
@@ -9,4 +9,9 @@ export const Filter = ({ value, onChange }) => {
       placeholder="Search by name..."
     />
   );
+};
+
+Filter.propTypes = {
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func,
 };

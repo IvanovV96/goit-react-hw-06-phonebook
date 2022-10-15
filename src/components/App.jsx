@@ -1,9 +1,11 @@
+import { v4 as uuidv4 } from 'uuid';
+import PropTypes from 'prop-types';
 import { Component } from 'react';
 import { ContactsList } from './Contacts/Contacts';
 import { PhonebookForm } from './PhonebookForm/PhonebookForm';
 import { Filter } from './Filter/Filter';
 import { Section } from './Section/Section';
-import { v4 as uuidv4 } from 'uuid';
+
 export class App extends Component {
   state = {
     contacts: [],
@@ -55,3 +57,12 @@ export class App extends Component {
     );
   }
 }
+
+App.propTypes = {
+  contacts: PropTypes.array,
+  filter: PropTypes.string,
+  title: PropTypes.shape({
+    form: PropTypes.string,
+    contacts: PropTypes.string,
+  }),
+};

@@ -1,5 +1,6 @@
-import { Field, Formik } from 'formik';
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { Field, Formik } from 'formik';
 import { FormEl } from './PhonebookForm.styled';
 const initialValues = {
   name: '',
@@ -51,3 +52,10 @@ export class PhonebookForm extends Component {
     );
   }
 }
+
+PhonebookForm.propTypes = {
+  initialValues: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    number: PropTypes.number.isRequired,
+  }),
+};

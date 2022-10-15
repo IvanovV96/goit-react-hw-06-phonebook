@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { Component } from 'react';
 import { Contact } from './Contact';
 import { ContactsEl } from './Contacts.styled';
@@ -31,3 +32,9 @@ export class ContactsList extends Component {
     );
   }
 }
+
+ContactsList.propTypes = {
+  contact: PropTypes.object,
+  onClick: PropTypes.func,
+  key: PropTypes.string,
+};

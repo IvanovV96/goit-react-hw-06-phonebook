@@ -11,19 +11,26 @@ const initialValues = {
   number: '',
 };
 
+const phoneRegExp =
+  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+
 const schema = Yup.object().shape({
-  name: Yup.string().matches(
-    "^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$",
-    "Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-  ),
-  number: Yup.string()
+  name: Yup.string()
+    .required('required')
     .matches(
-      '/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/',
+      "^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$",
+      "Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+    ),
+  number: Yup.string()
+    .required('required')
+    .matches(
+      phoneRegExp,
       'Phone number must be digits and can contain spaces, dashes, parentheses and can start with +'
     )
-    .min(6)
-    .max(12),
+    .min(6, 'Too short')
+    .max(12, 'Too long'),
 });
+
 export class PhonebookForm extends Component {
   handleSubmit = (values, { resetForm }) => {
     const { contacts } = this.props;

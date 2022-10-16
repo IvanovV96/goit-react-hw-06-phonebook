@@ -16,7 +16,15 @@ export class App extends Component {
     contacts: [],
     filter: '',
   };
-
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
+  componentDidMount() {
+    const localContacts = JSON.parse(localStorage.getItem('contacts'));
+    this.setState({ contacts: localContacts });
+  }
   onSubmit = values => {
     const id = uuidv4();
     const newValues = { id: id, ...values };

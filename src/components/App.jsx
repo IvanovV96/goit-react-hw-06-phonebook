@@ -6,6 +6,11 @@ import { PhonebookForm } from './PhonebookForm/PhonebookForm';
 import { Filter } from './Filter/Filter';
 import { Section } from './Section/Section';
 
+const titles = {
+  form: 'Phonebook',
+  contacts: 'Contacts',
+};
+
 export class App extends Component {
   state = {
     contacts: [],
@@ -20,8 +25,8 @@ export class App extends Component {
     });
   };
 
-  onChange = e => {
-    this.setState({ filter: e.currentTarget.value });
+  onChange = value => {
+    this.setState({ filter: value });
   };
 
   removeContact = id => {
@@ -32,10 +37,7 @@ export class App extends Component {
 
   render() {
     const { contacts, filter } = this.state;
-    const titles = {
-      form: 'Phonebook',
-      contacts: 'Contacts',
-    };
+
     return (
       <>
         <Section title={titles.form}>

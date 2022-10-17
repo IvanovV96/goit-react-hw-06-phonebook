@@ -5,9 +5,8 @@ import { ContactsEl } from './Contacts.styled';
 
 export class ContactsList extends Component {
   getFilteredContacts = () => {
-    const { contacts, filter } = this.props;
-    return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(filter.toLowerCase())
+    return this.props.contacts.filter(contact =>
+      contact.name.toLowerCase().includes(this.props.filter.toLowerCase())
     );
   };
 

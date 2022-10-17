@@ -21,10 +21,14 @@ export class App extends Component {
       localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
     }
   }
+
   componentDidMount() {
     const localContacts = JSON.parse(localStorage.getItem('contacts'));
-    this.setState({ contacts: localContacts });
+    if (localContacts) {
+      this.setState({ contacts: localContacts });
+    }
   }
+
   onSubmit = values => {
     const id = uuidv4();
     const newValues = { id: id, ...values };

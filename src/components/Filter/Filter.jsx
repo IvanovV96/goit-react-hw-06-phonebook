@@ -1,17 +1,11 @@
 import PropTypes from 'prop-types';
 import { FilterField } from './Filter.styled';
 export const Filter = ({ value, onChange }) => {
-  return (
-    <FilterField
-      type="text"
-      onChange={onChange}
-      value={value}
-      placeholder="Search by name..."
-    />
-  );
+  const handleChange = e => onChange(e.currentTarget.value);
+  return <FilterField type="text" onChange={handleChange} value={value} />;
 };
 
 Filter.propTypes = {
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
   onChange: PropTypes.func,
 };

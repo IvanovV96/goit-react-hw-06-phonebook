@@ -49,7 +49,6 @@ export class App extends Component {
 
   render() {
     const { contacts, filter } = this.state;
-
     return (
       <>
         <Section title={titles.form}>

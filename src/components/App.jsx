@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import PropTypes from 'prop-types';
-import { Component } from 'react';
+import { useState, useEffect } from 'react';
 import { ContactsList } from './Contacts/Contacts';
 import { PhonebookForm } from './PhonebookForm/PhonebookForm';
 import { Filter } from './Filter/Filter';
@@ -11,74 +11,45 @@ const titles = {
   contacts: 'Contacts',
 };
 
-export class App extends Component {
-  state = {
-    contacts: [],
-    filter: '',
-  };
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.contacts !== prevState.contacts) {
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-    }
-  }
+export const App = () => {
+  const [contacts, setContacts] = useState(
+    JSON.parse(localStorage.getItem('contacts'))
+  );
+  const [filter, setFilter] = useState('');
 
-  componentDidMount() {
-    const localContacts = this.parseLocalStorage('contacts');
-    if (localContacts) {
-      this.setState({ contacts: localContacts });
-    }
-  }
+  useEffect(() => {
+    localStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [contacts]);
 
-  parseLocalStorage(key) {
-    try {
-      const data = JSON.parse(localStorage.getItem(key));
-      return data;
-    } catch (error) {
-      return [];
-    }
-  }
-
-  onSubmit = values => {
+  const onSubmit = values => {
     const id = uuidv4();
     const newValues = { id: id, ...values };
-    this.setState(prevState => {
-      return { contacts: [newValues, ...prevState.contacts] };
-    });
+    setContacts([newValues, ...contacts]);
   };
 
-  onChange = value => {
-    this.setState({ filter: value });
+  const onChange = value => setFilter(value);
+
+  const removeContact = id => {
+    const contact = contacts.filter(contact => contact.id !== id);
+    setContacts(contact);
   };
+  return (
+    <>
+      <Section title={titles.form}>
+        <PhonebookForm onSubmit={onSubmit} contacts={contacts} />
+      </Section>
 
-  removeContact = id => {
-    this.setState({
-      contacts: this.state.contacts.filter(contact => contact.id !== id),
-    });
-  };
-
-  render() {
-    const { contacts, filter } = this.state;
-    return (
-      <>
-        <Section title={titles.form}>
-          <PhonebookForm
-            onSubmit={this.onSubmit}
-            contacts={this.state.contacts}
-          />
-        </Section>
-
-        <Section title={titles.contacts}>
-          <Filter contacts={contacts} onChange={this.onChange} value={filter} />
-          <ContactsList
-            contacts={contacts}
-            filter={filter}
-            removeItem={this.removeContact}
-          />
-        </Section>
-      </>
-    );
-  }
-}
+      <Section title={titles.contacts}>
+        <Filter value={filter} onChange={onChange} />
+        <ContactsList
+          contacts={contacts}
+          filter={filter}
+          removeItem={removeContact}
+        />
+      </Section>
+    </>
+  );
+};
 
 App.propTypes = {
   contacts: PropTypes.array,

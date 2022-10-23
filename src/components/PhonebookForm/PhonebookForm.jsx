@@ -34,7 +34,6 @@ const schema = Yup.object().shape({
 export class PhonebookForm extends Component {
   handleSubmit = (values, { resetForm }) => {
     const { contacts } = this.props;
-
     if (
       contacts.some(
         contact => contact.name.toLowerCase() === values.name.toLowerCase()

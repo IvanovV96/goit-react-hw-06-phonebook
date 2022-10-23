@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React, { Component } from 'react';
 import { toastWarn } from 'services/Toastify/toast';
 import { Field, Formik } from 'formik';
 import * as Yup from 'yup';
@@ -31,9 +30,8 @@ const schema = Yup.object().shape({
     .max(12, 'Too long'),
 });
 
-export class PhonebookForm extends Component {
-  handleSubmit = (values, { resetForm }) => {
-    const { contacts } = this.props;
+export const PhonebookForm = ({ contacts, onSubmit }) => {
+  const handleSubmit = (values, { resetForm }) => {
     if (
       contacts.some(
         contact => contact.name.toLowerCase() === values.name.toLowerCase()
@@ -43,29 +41,27 @@ export class PhonebookForm extends Component {
       return;
     }
 
-    this.props.onSubmit(values);
+    onSubmit(values);
     resetForm();
   };
-  render() {
-    return (
-      <Formik
-        initialValues={initialValues}
-        onSubmit={this.handleSubmit}
-        validationSchema={schema}
-      >
-        <FormEl>
-          <Field type="text" name="name" placeholder="Name" />
-          <ErrorMessageEl name="name" component="div" />
+  return (
+    <Formik
+      initialValues={initialValues}
+      onSubmit={handleSubmit}
+      validationSchema={schema}
+    >
+      <FormEl>
+        <Field type="text" name="name" placeholder="Name" />
+        <ErrorMessageEl name="name" component="div" />
 
-          <Field type="tel" name="number" placeholder="Phone number" />
-          <ErrorMessageEl name="number" component="div" />
-          <button type="submit">Add contact</button>
-          <ToastContainer />
-        </FormEl>
-      </Formik>
-    );
-  }
-}
+        <Field type="tel" name="number" placeholder="Phone number" />
+        <ErrorMessageEl name="number" component="div" />
+        <button type="submit">Add contact</button>
+        <ToastContainer />
+      </FormEl>
+    </Formik>
+  );
+};
 
 PhonebookForm.propTypes = {
   initialValues: PropTypes.shape({

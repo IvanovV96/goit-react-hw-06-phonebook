@@ -5,6 +5,7 @@ import { ContactsList } from './Contacts/Contacts';
 import { PhonebookForm } from './PhonebookForm/PhonebookForm';
 import { Filter } from './Filter/Filter';
 import { Section } from './Section/Section';
+import { parseDataFromLS } from 'services/Toastify/parseDataFromLS';
 
 const titles = {
   form: 'Phonebook',
@@ -12,9 +13,7 @@ const titles = {
 };
 
 export const App = () => {
-  const [contacts, setContacts] = useState(
-    JSON.parse(localStorage.getItem('contacts'))
-  );
+  const [contacts, setContacts] = useState(parseDataFromLS('contacts'));
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
@@ -33,6 +32,7 @@ export const App = () => {
     const contact = contacts.filter(contact => contact.id !== id);
     setContacts(contact);
   };
+
   return (
     <>
       <Section title={titles.form}>

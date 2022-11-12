@@ -1,9 +1,12 @@
-import PropTypes from 'prop-types';
+import { v4 as uuidv4 } from 'uuid';
+import { useDispatch, useSelector } from 'react-redux/es/exports';
 import { toastWarn } from 'services/Toastify/toast';
 import { Field, Formik } from 'formik';
 import * as Yup from 'yup';
 import { ToastContainer } from 'react-toastify';
 import { ErrorMessageEl, FormEl } from './PhonebookForm.styled';
+import { addContact } from 'redux/contacts/slice';
+import { updateFilter } from 'redux/filter/slice';
 
 const initialValues = {
   name: '',
@@ -30,7 +33,9 @@ const schema = Yup.object().shape({
     .max(12, 'Too long'),
 });
 
-export const PhonebookForm = ({ contacts, onSubmit }) => {
+export const PhonebookForm = () => {
+  const dispatch = useDispatch();
+  const contacts = useSelector(state => state.contacts);
   const handleSubmit = (values, { resetForm }) => {
     if (
       contacts.some(
@@ -41,7 +46,10 @@ export const PhonebookForm = ({ contacts, onSubmit }) => {
       return;
     }
 
-    onSubmit(values);
+    const id = uuidv4();
+    const newValues = { id: id, ...values };
+    dispatch(addContact(newValues));
+    dispatch(updateFilter(''));
     resetForm();
   };
   return (
@@ -61,11 +69,4 @@ export const PhonebookForm = ({ contacts, onSubmit }) => {
       </FormEl>
     </Formik>
   );
-};
-
-PhonebookForm.propTypes = {
-  initialValues: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    number: PropTypes.number.isRequired,
-  }),
 };

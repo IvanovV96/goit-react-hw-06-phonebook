@@ -1,29 +1,30 @@
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux/es/exports';
+import { removeContact } from 'redux/contacts/slice';
 import { Contact } from './Contact';
 import { ContactsEl } from './Contacts.styled';
 
-export const ContactsList = ({ contacts, filter, removeItem }) => {
+export const ContactsList = () => {
+  const dispatch = useDispatch();
+  const filter = useSelector(state => state.filter);
+  const contacts = useSelector(state => state.contacts);
   const getFilteredContacts = () => {
     return contacts.filter(contact =>
       contact.name.toLowerCase().includes(filter.toLowerCase())
     );
-  };
-  const onClick = e => {
-    removeItem(e.target.id);
   };
 
   const filteredContacts = getFilteredContacts();
   return (
     <ContactsEl>
       {filteredContacts.map(contact => {
-        return <Contact contact={contact} onClick={onClick} key={contact.id} />;
+        return (
+          <Contact
+            contact={contact}
+            onClick={e => dispatch(removeContact(e.target.id))}
+            key={contact.id}
+          />
+        );
       })}
     </ContactsEl>
   );
-};
-
-ContactsList.propTypes = {
-  contact: PropTypes.object,
-  onClick: PropTypes.func,
-  key: PropTypes.string,
 };

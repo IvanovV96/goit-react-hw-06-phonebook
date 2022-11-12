@@ -1,11 +1,15 @@
-import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux/es/exports';
+import { updateFilter } from 'redux/filter/slice';
 import { FilterField } from './Filter.styled';
-export const Filter = ({ value, onChange }) => {
-  const handleChange = e => onChange(e.currentTarget.value);
-  return <FilterField type="text" onChange={handleChange} value={value} />;
-};
-
-Filter.propTypes = {
-  value: PropTypes.string,
-  onChange: PropTypes.func,
+export const Filter = () => {
+  const dispatch = useDispatch();
+  const filter = useSelector(state => state.filter);
+  return (
+    <FilterField
+      type="text"
+      onChange={e => dispatch(updateFilter(e.currentTarget.value))}
+      value={filter}
+      placeholder="Search by name"
+    />
+  );
 };

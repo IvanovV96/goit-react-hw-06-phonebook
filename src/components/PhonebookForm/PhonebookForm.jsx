@@ -5,7 +5,7 @@ import { Field, Formik } from 'formik';
 import * as Yup from 'yup';
 import { ToastContainer } from 'react-toastify';
 import { ErrorMessageEl, FormEl } from './PhonebookForm.styled';
-import { addContact } from 'redux/contacts/slice';
+import { addContact, getContacts } from 'redux/contacts/slice';
 import { updateFilter } from 'redux/filter/slice';
 
 const initialValues = {
@@ -35,10 +35,10 @@ const schema = Yup.object().shape({
 
 export const PhonebookForm = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(state => state.contacts);
+  const contacts = useSelector(getContacts);
   const handleSubmit = (values, { resetForm }) => {
     if (
-      contacts.some(
+      contacts.value.some(
         contact => contact.name.toLowerCase() === values.name.toLowerCase()
       )
     ) {

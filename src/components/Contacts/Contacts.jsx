@@ -9,7 +9,7 @@ export const ContactsList = () => {
   const filter = useSelector(getFilterValue);
   const contacts = useSelector(getContacts);
   const getFilteredContacts = () => {
-    return contacts?.value.filter(contact =>
+    return contacts.contacts.filter(contact =>
       contact.name.toLowerCase().includes(filter.toLowerCase())
     );
   };
@@ -17,7 +17,7 @@ export const ContactsList = () => {
   const filteredContacts = getFilteredContacts();
   return (
     <ContactsEl>
-      {filteredContacts?.map(contact => {
+      {filteredContacts.map(contact => {
         return (
           <Contact
             contact={contact}

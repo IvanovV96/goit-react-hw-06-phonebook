@@ -38,7 +38,7 @@ export const PhonebookForm = () => {
   const contacts = useSelector(getContacts);
   const handleSubmit = (values, { resetForm }) => {
     if (
-      contacts.value.some(
+      contacts.contacts.some(
         contact => contact.name.toLowerCase() === values.name.toLowerCase()
       )
     ) {
